@@ -1,0 +1,13 @@
+.menu{
+    list-style: none;display: flex;flex-direction: row;gap: 20px;
+}
+
+.menu li{
+    color: var(--blue);
+}
+
+.menu li:hover{
+    color:var(--mint-color);
+    cursor: pointer;
+    font-weight: 500;
+}

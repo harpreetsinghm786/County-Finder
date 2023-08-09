@@ -1,0 +1,296 @@
+<div style="width: 100%; height: 100%; display: flex; justify-content: center">
+  <div style="display: flex; flex-direction: row; width: 100%">
+    <!-- sidebar -->
+    <div
+      style="
+        display: flex;
+        width: 450px;
+        flex-direction: column;
+        background-color: var(--pale-blue);
+        overflow-y: scroll;
+        padding-bottom: 100px;
+        box-shadow: #0000001a 0px 4px 12px;
+      "
+    >
+    
+      <div
+        style="
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          border-radius: 5px;
+          margin: 10px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          background-color: var(--blue);
+          border-radius: 5px;
+        "
+      >
+      <form (submit)="getDetailsFromSearch()" style="width: 100%;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+        <input
+        type="text"
+        placeholder="Search Countries"
+        style="
+          border: none;
+          outline: none;
+          height: 50px;
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+          padding-left: 10px;
+          width: 100%;
+        "
+        name="query"
+        [(ngModel)]="query"
+       
+      />
+    
+       
+
+    
+
+        <div
+          style="
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+          "
+         (click)="getDetailsFromSearch()"
+        >
+          <mat-icon style="color: white">search</mat-icon>
+        </div>
+
+    </form>
+      </div>
+
+      <ng-container *ngIf="isdata; else elseTemplate">
+        <ng-container *ngIf="!progress; else elseTemplate">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              padding: 10px;
+              gap: 5px;
+            "
+          >
+
+          <div
+          style="
+            display: flex;
+            flex-direction: row;
+            background-color: white;
+            border-radius: 7px;
+            justify-content: space-between;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            padding: 10px;
+          "
+        >
+        <!-- country name & continent -->
+          <div style="display: flex; flex-direction: column">
+            <span
+              style="
+                font-size: 20px;
+                color: var(--blue);
+                font-weight: 500;
+                margin-top: 5px;
+              "
+              > {{ countryname }}</span
+            >
+            <span
+              style="font-size: 13px; font-weight: normal; margin-top: 5px"
+              >{{ city }}, {{
+                continent
+              }}</span>
+            
+          </div>
+
+          <!-- direction button -->
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <button
+              mat-fab
+              color="primary"
+              (click)="goToLink()"
+              style="background-color: var(--blue);height: 50px;width: 50px;color:var(--mint-color);"
+              
+              aria-label="Example icon button with a delete icon"
+            >
+            <span class="material-symbols-outlined">
+                pin_drop
+                </span>
+            </button>
+          </div>
+        </div>
+
+          <ng-container *ngIf="flag===''; else elseTemplate">
+            <!-- <div
+            style="
+              width: 100%;
+              border-radius: 7px;
+              height: 200px;
+              display: flex;
+              background-color: white;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <mat-spinner style="height: 30px; color: var(--blue)"></mat-spinner>
+          </div> -->
+          </ng-container>
+          <ng-template #elseTemplate>
+            <img
+            src="{{ flag }}"
+            style="
+              width: 100%;
+              border-radius: 7px;
+              height: 200px;
+              object-fit:cover;
+              box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+              
+            "
+          />
+          </ng-template>
+          
+           
+
+           
+            <!-- languages -->
+            <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+            margin-top: 10px;">Languages</span>
+            <mat-chip-listbox aria-label="Fish selection"  style="margin-top:10px">
+
+                <mat-chip *ngFor="let item of languages;" style="background-color: white;--mdc-chip-label-text-color: var(--blue);">{{item}}</mat-chip>
+            
+              </mat-chip-listbox>
+
+            <!-- also known as -->
+              <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+              margin-top: 10px;">Also Known As</span>
+              <mat-chip-listbox aria-label="Fish selection"  style="margin-top:10px">
+  
+                  <mat-chip *ngFor="let item of aka;" style="background-color: white;--mdc-chip-label-text-color: var(--blue);">{{item}}</mat-chip>
+              
+                </mat-chip-listbox>
+
+                <!--  population-->
+                <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                    <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+                    margin-top: 10px;">Population</span>
+                      <span style="font-size: 18px;font-weight: 500;color: var(--blue);
+                      margin-top: 10px;font-size: 15px;">{{population}}</span>
+                </div>
+                <mat-divider></mat-divider>
+
+                <!-- Area -->
+                <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                    <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+                    margin-top: 10px;">Area</span>
+                      <span style="font-size: 18px;font-weight: 500;color: var(--blue);
+                      margin-top: 10px;font-size: 15px;">{{area}}</span>
+                </div>
+                <mat-divider></mat-divider>
+
+                 <!--Capital -->
+                 <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                    <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+                    margin-top: 10px;">Capital</span>
+                      <span style="font-size: 18px;font-weight: 500;color: var(--blue);
+                      margin-top: 10px;font-size: 15px;">{{capital}}</span>
+                </div>
+                <mat-divider></mat-divider>
+
+                 <!--latlng -->
+                 <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                    <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+                    margin-top: 10px;">Latitude</span>
+                      <span style="font-size: 18px;font-weight: 500;color: var(--blue);
+                      margin-top: 10px;font-size: 15px;">{{lat.toFixed(5)}}</span>
+                </div>
+
+                <mat-divider></mat-divider>
+
+             
+              
+                <ng-container *ngIf="lang!==0; else elseTemplate">
+                     <!--latlng -->
+                 <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                    <span style="font-size: 15px;font-weight: 500;color: var(--blue);
+                    margin-top: 10px;">Longitude</span>
+                      <span style="font-size: 18px;font-weight: 500;color: var(--blue);
+                      margin-top: 10px;font-size: 15px;">{{lang.toFixed(5)}}</span>
+                </div>
+                <mat-divider></mat-divider>
+                </ng-container>
+                
+                
+                
+                
+
+              
+
+          </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <div
+            style="
+              height: 100%;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <mat-spinner style="height: 30px; color: var(--blue)"></mat-spinner>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div
+          style="
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+          "
+        >
+          <div
+            style="
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
+            "
+          >
+            <img src="assets/images/placeholder.svg" width="250px" />
+            <span
+              style="
+                color: var(--blue);
+                font-size: 13px;
+                display: flex;
+                justify-content: center;
+              "
+              >Click on the map to get the country details
+              <mat-icon>pin_drop</mat-icon></span
+            >
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div style="width: 100%; height: 100%">
+      <!-- map -->
+      <div class="map-wrap" >
+        <div class="map" #map (click)="getcoor()"></div>
+      </div>
+    </div>
+  </div>
+</div>
